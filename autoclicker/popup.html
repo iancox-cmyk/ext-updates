@@ -3,20 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <style>
-    body { font-family: sans-serif; width: 220px; padding: 10px; }
+    body { font-family: sans-serif; width: 240px; padding: 10px; }
     label { display: block; margin-top: 8px; font-size: 12px; }
     .row { display: flex; gap: 6px; }
     .row input { width: 0; flex: 1; }
     input, select { width: 100%; box-sizing: border-box; }
+    input::placeholder { color: #999; }
     button { width: 100%; margin-top: 12px; padding: 6px; font-weight: bold; }
-    .hint { font-size: 11px; color: #666; margin-top: 8px; line-height: 1.4; }
+    #quit { background: #c93030; color: #fff; border: none; }
+    .hint { font-size: 11px; color: #666; margin-top: 10px; }
+    .shortcuts { margin-top: 6px; border-collapse: collapse; width: 100%; }
+    .shortcuts td { padding: 2px 0; vertical-align: middle; }
+    .shortcuts td.label { font-weight: bold; color: #333; }
+    kbd {
+      display: inline-block;
+      font-family: monospace;
+      font-size: 11px;
+      background: #eee;
+      border: 1px solid #bbb;
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin: 1px 4px 1px 0;
+    }
+    .os { font-size: 10px; color: #888; }
   </style>
 </head>
 <body>
   <label>Interval range (ms)
     <div class="row">
-      <input type="number" id="minInterval" min="10" value="100" placeholder="min" />
-      <input type="number" id="maxInterval" min="10" value="100" placeholder="max" />
+      <input type="number" id="minInterval" min="10" placeholder="Min" />
+      <input type="number" id="maxInterval" min="10" placeholder="Max" />
     </div>
   </label>
   <label>Mouse button
@@ -27,12 +44,33 @@
     </select>
   </label>
   <label>Duration (seconds, 0 = unlimited)
-    <input type="number" id="duration" min="0" value="0" />
+    <input type="number" id="duration" min="0" placeholder="0" />
+  </label>
+  <label>Number of clicks (0 = unlimited)
+    <input type="number" id="clickCount" min="0" placeholder="0" />
   </label>
   <button id="toggle">Start</button>
+  <button id="quit">Quit</button>
   <div class="hint">
-    Clicks wherever your cursor is on the page.<br />
-    Toggle: Alt+Shift+A &middot; Quit: Alt+Shift+Q
+    Clicks wherever your cursor is on the page.
+    <table class="shortcuts">
+      <tr>
+        <td class="label">Toggle</td>
+        <td><kbd>Alt+Shift+A</kbd><span class="os">Win</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><kbd>Option+Shift+A</kbd><span class="os">Mac</span></td>
+      </tr>
+      <tr>
+        <td class="label">Quit</td>
+        <td><kbd>Alt+Shift+Q</kbd><span class="os">Win</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><kbd>Option+Shift+Q</kbd><span class="os">Mac</span></td>
+      </tr>
+    </table>
   </div>
   <script src="popup.js"></script>
 </body>

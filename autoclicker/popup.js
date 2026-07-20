@@ -2,7 +2,9 @@ const minIntervalInput = document.getElementById("minInterval");
 const maxIntervalInput = document.getElementById("maxInterval");
 const buttonSelect = document.getElementById("button");
 const durationInput = document.getElementById("duration");
+const clickCountInput = document.getElementById("clickCount");
 const toggleBtn = document.getElementById("toggle");
+const quitBtn = document.getElementById("quit");
 let running = false;
 
 async function getActiveTab() {
@@ -15,16 +17,20 @@ function render() {
 }
 
 async function init() {
+  // minInterval/maxInterval deliberately have no stored default — leaving them
+  // unset keeps the Min/Max placeholders visible until the user has actually
+  // typed something (or a previous session already saved a value).
   const stored = await browser.storage.local.get({
-    minInterval: 100,
-    maxInterval: 100,
     button: 0,
     duration: 0,
+    clickCount: 0,
   });
-  minIntervalInput.value = stored.minInterval;
-  maxIntervalInput.value = stored.maxInterval;
+  const interval = await browser.storage.local.get(["minInterval", "maxInterval"]);
+  if (interval.minInterval != null) minIntervalInput.value = interval.minInterval;
+  if (interval.maxInterval != null) maxIntervalInput.value = interval.maxInterval;
   buttonSelect.value = stored.button;
-  durationInput.value = stored.duration;
+  durationInput.value = stored.duration || "";
+  clickCountInput.value = stored.clickCount || "";
 
   const tab = await getActiveTab();
   if (tab) {
@@ -46,6 +52,7 @@ toggleBtn.addEventListener("click", async () => {
     maxInterval,
     button: parseInt(buttonSelect.value, 10),
     duration: Math.max(0, parseInt(durationInput.value, 10) || 0),
+    clickCount: Math.max(0, parseInt(clickCountInput.value, 10) || 0),
   };
   await browser.storage.local.set(settings);
 
@@ -62,6 +69,18 @@ toggleBtn.addEventListener("click", async () => {
   } catch (e) {
     alert("Reload this page first — the extension can't reach it yet.");
   }
+});
+
+quitBtn.addEventListener("click", async () => {
+  const tab = await getActiveTab();
+  if (!tab) return;
+  try {
+    await browser.tabs.sendMessage(tab.id, { type: "stop" });
+  } catch (e) {
+    // content script not present on this page — nothing running there anyway
+  }
+  running = false;
+  render();
 });
 
 init();

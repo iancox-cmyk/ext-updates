@@ -3,7 +3,8 @@ let timerId = null;
 let durationTimerId = null;
 let mouseX = 0;
 let mouseY = 0;
-let settings = { minInterval: 100, maxInterval: 100, button: 0, duration: 0 };
+let clicksFired = 0;
+let settings = { minInterval: 100, maxInterval: 100, button: 0, duration: 0, clickCount: 0 };
 
 document.addEventListener(
   "mousemove",
@@ -39,6 +40,11 @@ function scheduleNext() {
   if (!running) return;
   timerId = setTimeout(() => {
     fireClick();
+    clicksFired++;
+    if (settings.clickCount > 0 && clicksFired >= settings.clickCount) {
+      stop();
+      return;
+    }
     scheduleNext();
   }, randomDelay());
 }
@@ -47,6 +53,7 @@ function start(newSettings) {
   if (newSettings) settings = newSettings;
   if (running) return;
   running = true;
+  clicksFired = 0;
   scheduleNext();
   if (settings.duration > 0) {
     durationTimerId = setTimeout(stop, settings.duration * 1000);

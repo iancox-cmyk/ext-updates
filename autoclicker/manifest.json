@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Simple AutoClicker",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Local, private autoclicker. No network access.",
   "browser_specific_settings": {
     "gecko": {

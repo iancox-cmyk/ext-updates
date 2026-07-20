@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <style>
-    body { font-family: sans-serif; width: 240px; padding: 10px; }
+    body { font-family: sans-serif; width: 260px; padding: 10px; }
     label { display: block; margin-top: 8px; font-size: 12px; }
     .row { display: flex; gap: 6px; }
     .row input { width: 0; flex: 1; }
@@ -27,15 +27,54 @@
       margin: 1px 4px 1px 0;
     }
     .os { font-size: 10px; color: #888; }
+
+    .section { margin-top: 14px; padding-top: 10px; border-top: 1px solid #ddd; }
+    .section-title { font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+
+    .spot-card { border: 1px solid #ddd; border-radius: 6px; padding: 6px; margin-top: 6px; font-size: 11px; }
+    .spot-head { display: flex; align-items: center; gap: 4px; }
+    .spot-head .idx { width: 14px; text-align: right; color: #666; }
+    .spot-head .coords { flex: 1; color: #333; }
+    .spot-head button { width: auto; margin: 0; padding: 2px 6px; font-size: 11px; font-weight: normal; }
+    .spot-mode { display: flex; gap: 10px; margin-top: 5px; }
+    .spot-mode label { display: inline-flex; align-items: center; gap: 3px; margin-top: 0; font-size: 11px; font-weight: normal; }
+    .spot-mode input[type="radio"] { width: auto; }
+    .spot-box-size { display: flex; align-items: center; gap: 4px; margin-top: 5px; }
+    .spot-box-size input { width: 0; flex: 1; padding: 3px 4px; font-size: 11px; margin-top: 0; }
+    .spot-fixed { display: flex; align-items: center; gap: 4px; margin-top: 5px; color: #555; }
+    .spot-fixed input { width: 0; flex: 1; padding: 3px 4px; font-size: 11px; margin-top: 0; }
+    .spot-fixed span { flex: none; }
+    .spot-interval { display: flex; align-items: center; gap: 4px; margin-top: 5px; color: #555; }
+    .spot-interval input { width: 0; flex: 1; padding: 3px 4px; font-size: 11px; margin-top: 0; }
+    .spot-interval span { flex: none; }
+    .no-spots { font-size: 11px; color: #888; margin-top: 4px; line-height: 1.4; }
+    .profile-row { display: flex; gap: 4px; margin-top: 6px; }
+    .profile-row select { flex: 1; }
+    .profile-row button { width: auto; margin: 0; padding: 4px 8px; font-size: 11px; }
+
+    .status-row { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: bold; color: #333; }
+    .status-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #c93030; box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
+      flex: none;
+    }
+    .status-dot.on { background: #2e9e3b; }
   </style>
 </head>
 <body>
-  <label>Interval range (ms)
+  <div class="status-row">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Idle</span>
+  </div>
+
+  <div class="section" style="margin-top: 10px; border-top: none; padding-top: 0;">
+    <div class="section-title">Default interval for new spots (ms)</div>
     <div class="row">
-      <input type="number" id="minInterval" min="10" placeholder="Min" />
-      <input type="number" id="maxInterval" min="10" placeholder="Max" />
+      <input type="number" id="defaultMin" min="10" placeholder="Min" />
+      <input type="number" id="defaultMax" min="10" placeholder="Max" />
     </div>
-  </label>
+  </div>
+
   <label>Mouse button
     <select id="button">
       <option value="0">Left</option>
@@ -46,13 +85,36 @@
   <label>Duration (seconds, 0 = unlimited)
     <input type="number" id="duration" min="0" placeholder="0" />
   </label>
-  <label>Number of clicks (0 = unlimited)
+  <label>Number of clicks total (0 = unlimited)
     <input type="number" id="clickCount" min="0" placeholder="0" />
   </label>
+
+  <div class="section">
+    <div class="section-title">Spots (clicked in order, then repeats)</div>
+    <div id="spotList"></div>
+    <div class="no-spots" id="noSpots">
+      No spots yet. Hover your target on the page and press the Capture Spot
+      shortcut below to add one.
+    </div>
+    <button id="clearSpots" style="margin-top: 8px;">Clear all spots</button>
+  </div>
+
   <button id="toggle">Start</button>
   <button id="quit">Quit</button>
+
+  <div class="section">
+    <div class="section-title">Save / load profile</div>
+    <input type="text" id="profileName" placeholder="Profile name" />
+    <button id="saveProfile">Save profile</button>
+    <div class="profile-row">
+      <select id="profileSelect"></select>
+      <button id="loadProfile">Load</button>
+      <button id="deleteProfile">Delete</button>
+    </div>
+  </div>
+
   <div class="hint">
-    Clicks wherever your cursor is on the page.
+    A marker travels between spots and clicks fire once it arrives.
     <table class="shortcuts">
       <tr>
         <td class="label">Toggle</td>
@@ -69,6 +131,14 @@
       <tr>
         <td></td>
         <td><kbd>Option+Shift+Q</kbd><span class="os">Mac</span></td>
+      </tr>
+      <tr>
+        <td class="label">Capture Spot</td>
+        <td><kbd>Alt+Shift+S</kbd><span class="os">Win</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><kbd>Option+Shift+S</kbd><span class="os">Mac</span></td>
       </tr>
     </table>
   </div>

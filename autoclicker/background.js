@@ -3,7 +3,13 @@ browser.commands.onCommand.addListener(async (command) => {
   if (!tab) return;
 
   const messageType =
-    command === "toggle-autoclick" ? "toggle" : command === "stop-autoclick" ? "stop" : null;
+    command === "toggle-autoclick"
+      ? "toggle"
+      : command === "stop-autoclick"
+      ? "stop"
+      : command === "capture-spot"
+      ? "captureSpot"
+      : null;
   if (!messageType) return;
 
   try {

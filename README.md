@@ -20,3 +20,22 @@ as they're built — see the release process in each source project's
 
 GitHub Pages must be enabled on this repo (Settings → Pages → Deploy from
 branch → `main` / root) for the `update_url`s above to resolve.
+
+## New-machine install
+
+**macOS / Linux:**
+
+```
+curl -fsSL https://raw.githubusercontent.com/iancox-cmyk/ext-updates/main/install.sh | bash
+```
+
+**Windows (PowerShell):**
+
+```
+irm https://raw.githubusercontent.com/iancox-cmyk/ext-updates/main/install.ps1 | iex
+```
+
+Both download the signed `.xpi`s and open each in Firefox — click "Add" on
+the one install prompt per extension that Firefox shows. After that,
+`update_url` keeps both current automatically; the script only needs to
+run once per machine.

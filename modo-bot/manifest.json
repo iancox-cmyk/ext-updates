@@ -6,7 +6,11 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "modo-bot@iancox-cmyk.github.io",
-      "update_url": "https://iancox-cmyk.github.io/ext-updates/modo-bot/updates.json"
+      "update_url": "https://iancox-cmyk.github.io/ext-updates/modo-bot/updates.json",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": ["technicalAndInteraction", "personallyIdentifyingInfo"]
+      }
     }
   },
   "permissions": ["storage", "<all_urls>"],

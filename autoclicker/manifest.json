@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Simple AutoClicker",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Local, private autoclicker. No network access.",
   "browser_specific_settings": {
     "gecko": {
@@ -39,7 +39,7 @@
       "description": "Force-stop autoclicking (quit)"
     },
     "capture-spot": {
-      "suggested_key": { "default": "Alt+Shift+S" },
+      "suggested_key": { "default": "Alt+Shift+S", "linux": "Alt+Shift+D" },
       "description": "Capture current cursor position as the next spot"
     }
   }

@@ -1,0 +1,13 @@
+{
+  "addons": {
+    "simple-autoclicker@iancox-cmyk.github.io": {
+      "updates": [
+        {
+          "version": "1.0",
+          "update_link": "https://iancox-cmyk.github.io/ext-updates/autoclicker/simple-autoclicker-1.0.xpi",
+          "update_hash": "sha256:REPLACE_WITH_SHA256_OF_XPI"
+        }
+      ]
+    }
+  }
+}

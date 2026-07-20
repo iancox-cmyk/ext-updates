@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "Modo Bot",
+  "version": "1.16",
+  "description": "Per-profile config, success detection, structured logging, optional webhook reporting for modo.us purchases.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "modo-bot@iancox-cmyk.github.io",
+      "update_url": "https://iancox-cmyk.github.io/ext-updates/modo-bot/updates.json"
+    }
+  },
+  "permissions": ["storage", "<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["https://modo.us/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  }
+}

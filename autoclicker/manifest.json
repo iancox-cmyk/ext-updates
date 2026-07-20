@@ -1,0 +1,39 @@
+{
+  "manifest_version": 2,
+  "name": "Simple AutoClicker",
+  "version": "1.0",
+  "description": "Local, private autoclicker. No network access.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "simple-autoclicker@iancox-cmyk.github.io",
+      "update_url": "https://iancox-cmyk.github.io/ext-updates/autoclicker/updates.json"
+    }
+  },
+  "permissions": ["activeTab", "storage", "<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "AutoClicker"
+  },
+  "commands": {
+    "toggle-autoclick": {
+      "suggested_key": { "default": "Alt+Shift+A" },
+      "description": "Start/stop autoclicking at cursor"
+    },
+    "stop-autoclick": {
+      "suggested_key": { "default": "Alt+Shift+Q" },
+      "description": "Force-stop autoclicking (quit)"
+    }
+  }
+}

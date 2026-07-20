@@ -1,0 +1,13 @@
+{
+  "addons": {
+    "modo-bot@iancox-cmyk.github.io": {
+      "updates": [
+        {
+          "version": "1.16",
+          "update_link": "https://iancox-cmyk.github.io/ext-updates/modo-bot/modo-bot-1.16.xpi",
+          "update_hash": "sha256:REPLACE_WITH_SHA256_OF_XPI"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: sans-serif; width: 220px; padding: 10px; }
+    label { display: block; margin-top: 8px; font-size: 12px; }
+    .row { display: flex; gap: 6px; }
+    .row input { width: 0; flex: 1; }
+    input, select { width: 100%; box-sizing: border-box; }
+    button { width: 100%; margin-top: 12px; padding: 6px; font-weight: bold; }
+    .hint { font-size: 11px; color: #666; margin-top: 8px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <label>Interval range (ms)
+    <div class="row">
+      <input type="number" id="minInterval" min="10" value="100" placeholder="min" />
+      <input type="number" id="maxInterval" min="10" value="100" placeholder="max" />
+    </div>
+  </label>
+  <label>Mouse button
+    <select id="button">
+      <option value="0">Left</option>
+      <option value="2">Right</option>
+      <option value="1">Middle</option>
+    </select>
+  </label>
+  <label>Duration (seconds, 0 = unlimited)
+    <input type="number" id="duration" min="0" value="0" />
+  </label>
+  <button id="toggle">Start</button>
+  <div class="hint">
+    Clicks wherever your cursor is on the page.<br />
+    Toggle: Alt+Shift+A &middot; Quit: Alt+Shift+Q
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@ New-Item -ItemType Directory -Path $TmpDir | Out-Null
 
 $Extensions = @(
     "modo-bot/modo-bot-1.16.xpi",
-    "autoclicker/simple-autoclicker-1.0.xpi"
+    "autoclicker/simple-autoclicker-2.0.xpi"
 )
 
 function Find-Firefox {

@@ -3,9 +3,9 @@
     "simple-autoclicker@iancox-cmyk.github.io": {
       "updates": [
         {
-          "version": "2.1",
-          "update_link": "https://iancox-cmyk.github.io/ext-updates/autoclicker/simple-autoclicker-2.1.xpi",
-          "update_hash": "sha256:b48c56f847d58de666314803e57ce7c0821135caadd14677a69d21b23071a3cb"
+          "version": "2.2",
+          "update_link": "https://iancox-cmyk.github.io/ext-updates/autoclicker/simple-autoclicker-2.2.xpi",
+          "update_hash": "sha256:a2853ca2f8a009f0da5b6b8b7141d1744149fbda47b50834b112a2f139d3c815"
         }
       ]
     }

@@ -3,13 +3,19 @@ const INDICATOR_ID = "__ac_indicator__";
 const MARKER_CLASS = "__ac_marker__";
 const BOX_CLASS = "__ac_box__";
 const DEFAULT_BOX_SIZE = 30;
+// A frame only wins a spot capture if the mouse was in IT within this many ms.
+// This is what makes multi-frame pages (iframes) safe: an ad/tracker iframe the
+// mouse never entered stays permanently stale and never captures; a frame the
+// mouse passed through a while ago (but isn't under the cursor right now) also
+// loses out to whichever frame the cursor is actually in.
+const RECENCY_WINDOW_MS = 2000;
 
 let running = false;
 let timerId = null;
 let durationTimerId = null;
 let mouseX = 0;
 let mouseY = 0;
-let hasMoved = false;
+let lastMoveTime = 0;
 let clicksFired = 0;
 let currentSpotIndex = 0;
 let spots = [];
@@ -20,7 +26,7 @@ document.addEventListener(
   (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    hasMoved = true;
+    lastMoveTime = Date.now();
   },
   true
 );
@@ -106,7 +112,7 @@ browser.storage.onChanged.addListener((changes, area) => {
 // ----- SPOT CAPTURE (Alt+Shift+S) -----
 
 async function captureSpot() {
-  if (!hasMoved) {
+  if (Date.now() - lastMoveTime > RECENCY_WINDOW_MS) {
     showToast("Move the mouse a little first, then try again");
     return { captured: false };
   }

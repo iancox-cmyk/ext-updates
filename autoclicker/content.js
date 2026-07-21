@@ -9,6 +9,14 @@ const DEFAULT_BOX_SIZE = 30;
 // mouse passed through a while ago (but isn't under the cursor right now) also
 // loses out to whichever frame the cursor is actually in.
 const RECENCY_WINDOW_MS = 2000;
+// Identifies which document (top page vs. a specific iframe) captured a given
+// spot, so that with all_frames enabled, only the frame that actually owns a
+// spot renders its marker or clicks it — otherwise every frame on the page
+// would render/click the same raw coordinates against its own viewport.
+const FRAME_HREF = location.href;
+function ownsSpot(spot) {
+  return spot.frameHref ? spot.frameHref === FRAME_HREF : window === window.top;
+}
 
 let running = false;
 let timerId = null;
@@ -64,6 +72,7 @@ function hideIndicator() {
 function renderMarkers(spotsArr) {
   document.querySelectorAll("." + MARKER_CLASS + ", ." + BOX_CLASS).forEach((n) => n.remove());
   (spotsArr || []).forEach((s, i) => {
+    if (!ownsSpot(s)) return;
     if (s.mode === "box") {
       const w = s.boxWidth || DEFAULT_BOX_SIZE;
       const h = s.boxHeight || DEFAULT_BOX_SIZE;
@@ -124,6 +133,7 @@ async function captureSpot() {
     minInterval: defaultMinInterval,
     maxInterval: defaultMaxInterval,
     mode: "point",
+    frameHref: FRAME_HREF,
   };
   const updated = [...existing, spot];
   await browser.storage.local.set({ spots: updated });
@@ -192,7 +202,7 @@ function runStep() {
 
 function start(newSettings) {
   if (newSettings) settings = newSettings;
-  spots = settings.spots || [];
+  spots = (settings.spots || []).filter(ownsSpot);
   if (running || !spots.length) return;
   running = true;
   clicksFired = 0;

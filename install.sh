@@ -13,7 +13,7 @@ trap 'rm -rf "$TMPDIR"' EXIT
 
 EXTENSIONS=(
   "modo-bot/modo-bot-1.16.xpi"
-  "autoclicker/simple-autoclicker-2.2.xpi"
+  "autoclicker/simple-autoclicker-2.3.xpi"
 )
 
 open_with_firefox() {

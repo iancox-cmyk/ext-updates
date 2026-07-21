@@ -56,10 +56,9 @@ function renderSpotList() {
     idx.textContent = i + 1 + ".";
     head.appendChild(idx);
 
-    const coords = document.createElement("span");
-    coords.className = "coords";
-    coords.textContent = `(${spot.x}, ${spot.y})`;
-    head.appendChild(coords);
+    const headSpacer = document.createElement("span");
+    headSpacer.style.flex = "1";
+    head.appendChild(headSpacer);
 
     const upBtn = document.createElement("button");
     upBtn.textContent = "↑";
@@ -91,6 +90,44 @@ function renderSpotList() {
     head.appendChild(removeBtn);
 
     card.appendChild(head);
+
+    // ---- coordinates (editable — in case a capture landed slightly off, or
+    // you know the exact pixel you want without hovering to capture it) ----
+    const coordsRow = document.createElement("div");
+    coordsRow.className = "spot-coords";
+
+    const coordXLabel = document.createElement("span");
+    coordXLabel.textContent = "X";
+    coordsRow.appendChild(coordXLabel);
+
+    const xInput = document.createElement("input");
+    xInput.type = "number";
+    xInput.value = spot.x;
+    xInput.title = "X coordinate (px)";
+    coordsRow.appendChild(xInput);
+
+    const coordYLabel = document.createElement("span");
+    coordYLabel.textContent = "Y";
+    coordsRow.appendChild(coordYLabel);
+
+    const yInput = document.createElement("input");
+    yInput.type = "number";
+    yInput.value = spot.y;
+    yInput.title = "Y coordinate (px)";
+    coordsRow.appendChild(yInput);
+
+    xInput.addEventListener("change", () => {
+      spot.x = parseInt(xInput.value, 10) || 0;
+      xInput.value = spot.x;
+      persistSpots();
+    });
+    yInput.addEventListener("change", () => {
+      spot.y = parseInt(yInput.value, 10) || 0;
+      yInput.value = spot.y;
+      persistSpots();
+    });
+
+    card.appendChild(coordsRow);
 
     // ---- mode: Point vs Box ----
     const modeRow = document.createElement("div");
